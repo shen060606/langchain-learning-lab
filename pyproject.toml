@@ -1,0 +1,26 @@
+[project]
+name = "langchain-test"
+version = "0.1.0"
+description = "LangChain learning exercises covering RAG, Agent, MCP, and Harness"
+readme = "README.md"
+authors = [
+    { name = "shen060606", email = "181509001+shen060606@users.noreply.github.com" }
+]
+requires-python = ">=3.13"
+dependencies = [
+    "langchain>=1.4.0",
+    "langchain-deepseek>=1.1.0",
+    "langchain-mcp-adapters>=0.3.2",
+    "langchain-openai>=1.6.0",
+    "langchain-qdrant>=1.1.0",
+    "langchain-text-splitters>=1.1.2",
+    "langgraph>=1.2.11",
+    "mcp>=1.30.0",
+    "numpy>=2.5.3",
+    "pydantic>=2.13.5",
+    "python-dotenv>=1.2.3",
+]
+
+[build-system]
+requires = ["uv_build>=0.12.9,<0.13.0"]
+build-backend = "uv_build"
