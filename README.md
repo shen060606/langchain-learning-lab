@@ -16,6 +16,11 @@
 - 本地 stdio MCP Server 与 LangChain MCP Client
 - 轻量 Agent Harness：超时、错误边界、日志和固定样例
 - MCP、Agent 与 Harness 综合练习
+- LangGraph 状态、节点、边、条件路由与持久化
+- LangGraph 接入 ChatModel、工具调用与已有 MCP/Retriever
+- Retriever、RAG 与 Agent 的固定样例评估和运行观测
+- FastAPI 服务化、会话标识、错误边界与健康检查
+- Qdrant RAG、MCP、LangGraph 和 Harness 最终综合项目
 
 ## 环境要求
 
@@ -66,6 +71,7 @@ python -m langchain_test.14rag_chain
 python -m langchain_test.18mcp
 python -m langchain_test.19harness
 python -m langchain_test.20mcp_harness
+python -m langchain_test.21langgraph
 ```
 
 第 18、20 章使用本地 stdio MCP Server。客户端会自动运行：
@@ -88,7 +94,16 @@ pyproject.toml            项目依赖与 Python 版本配置
 
 ## 当前进度
 
-已完成第 01～19 章，目前正在进行第 20 章 MCP、Agent 与 Harness 综合练习。
+已完成第 01～21 章，目前开始第 22 章 LangGraph 接入 ChatModel 与工具。
+
+后续学习路线：
+
+- 第 22 章：在 LangGraph 节点中调用 ChatModel，并逐步接入工具与已有 MCP/Retriever。
+- 第 23 章：评估与可观测性，建立 Retriever、RAG、Agent 的固定回归样例。
+- 第 24 章：使用 FastAPI 把已有能力包装为最小可调用服务。
+- 第 25 章：整合 Qdrant RAG、MCP、LangGraph 与 Harness，完成最终练手项目。
+
+第 25 章完成并通过正常路径、无检索结果、工具失败和会话隔离测试后，本学习项目结束。复杂多 Agent、LangGraph Platform、分布式调度和生产部署不纳入本轮练习。
 
 ## 说明
 
