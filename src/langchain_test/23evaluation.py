@@ -124,9 +124,20 @@ def evaluation04(retriever: VectorStoreRetriever, model) -> None:
 
     total_coverage = 0.0
 
+    failed_count = 0
+
     for case in test_cases:
         retrieval_started = time.perf_counter()
-        documents = retriever.invoke(case["question"])
+
+        try:
+            documents = retriever.invoke(case["question"])
+        except Exception as error:
+            print("失败阶段：Retriever 检索")
+            print("错误类型：", type(error).__name__)
+            print("错误信息：", error)
+            failed_count += 1
+            continue
+
         retrieval_seconds = time.perf_counter() - retrieval_started
         context_parts = []
 
@@ -141,7 +152,16 @@ def evaluation04(retriever: VectorStoreRetriever, model) -> None:
         )
 
         model_started = time.perf_counter()
-        response = model.invoke(prompt)
+
+        try:
+            response = model.invoke(prompt)
+        except Exception as error:
+            print("失败阶段：模型调用")
+            print("错误类型：", type(error).__name__)
+            print("错误信息：", error)
+            failed_count += 1
+            continue
+
         model_seconds = time.perf_counter() - model_started
         coverage, missing_points = check_answer(
             response.content,
@@ -155,6 +175,9 @@ def evaluation04(retriever: VectorStoreRetriever, model) -> None:
 
     average_coverage = total_coverage / len(test_cases)
     print("平均关键点覆盖率：", average_coverage)
+
+    failure_rate = failed_count / len(test_cases)
+    print("失败率：", failure_rate)
 
 
 @tool
@@ -267,8 +290,9 @@ def evaluation06() -> None:
     print("实际选择的工具：", selected_tools)
     print("错误工具被识别为失败：", not selection_passed)
 
-    failure_tests_passed = (not passed) and (not selection_passed)
-    print("失败路径检查整体通过：", failure_tests_passed)
+    assert not passed, "错误工具结果没有被识别为失败"
+    assert not selection_passed, "错误工具选择没有被识别为失败"
+    print("失败路径回归检查通过")
 
 
 def main() -> None:
@@ -287,12 +311,12 @@ def main() -> None:
         check_embedding_ctx_length=False,
     )
 
-    # retriever = evaluation02(embedding_model)
+    retriever = evaluation02(embedding_model)
 
     # evaluation01(retriever)
     # evaluation03()
-    # evaluation04(retriever, model)
-    evaluation05(model)
+    evaluation04(retriever, model)
+    # evaluation05(model)
     # evaluation06()
 
 
